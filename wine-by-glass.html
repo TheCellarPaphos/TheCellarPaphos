@@ -11,14 +11,26 @@
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
+            table-layout: auto;
         }
         td {
             padding: 12px;
             text-align: left;
             border-bottom: 1px solid #ddd;
+            word-wrap: break-word;
+            white-space: normal;
         }
         tr:hover {
             background-color: #f1f1f1;
+        }
+        .wine-name {
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        .price {
+            text-align: right;
+            font-weight: bold;
+            color: #b12704;
         }
         @media (max-width: 768px) {
             table {
@@ -26,6 +38,9 @@
             }
             td {
                 padding: 8px;
+            }
+            .wine-name {
+                font-size: 1em;
             }
         }
     </style>
@@ -46,18 +61,14 @@
                     let newTable = "<table>";
 
                     let rows = table.querySelectorAll("tr");
-                    for (let i = 2; i < rows.length; i++) { // Начинаем с 2, чтобы пропустить заголовки
+                    for (let i = 2; i < rows.length; i++) { // Пропускаем заголовок
                         let cols = rows[i].querySelectorAll("td");
-                        if (cols.length > 6) {
+                        if (cols.length > 4) { // Убедимся, что есть все необходимые данные
                             newTable += `<tr>
-                                <td>${cols[0].innerText}</td>
+                                <td class="wine-name">${cols[0].innerText}</td>
                                 <td>${cols[1].innerText}</td>
-                                <td>${cols[2].innerText}</td>
-                                <td>${cols[3].innerText}</td>
-                                <td>${cols[4].innerText}</td>
-                                <td>${cols[5].innerText}</td>
-                                <td>${cols[6].innerText}</td>
-                                <td>${cols[7]?.innerText || "N/A"}</td>
+                                <td>${cols[4].innerText}</td> <!-- Год -->
+                                <td class="price">€${cols[7]?.innerText || "N/A"}</td>
                             </tr>`;
                         }
                     }
