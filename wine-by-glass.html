@@ -12,16 +12,21 @@
             border-collapse: collapse;
             margin-top: 20px;
         }
-        th, td {
-            padding: 10px;
+        td {
+            padding: 12px;
             text-align: left;
             border-bottom: 1px solid #ddd;
         }
-        th {
-            background-color: #f4f4f4;
-        }
         tr:hover {
             background-color: #f1f1f1;
+        }
+        @media (max-width: 768px) {
+            table {
+                font-size: 14px;
+            }
+            td {
+                padding: 8px;
+            }
         }
     </style>
 
@@ -38,10 +43,10 @@
                 let table = doc.querySelector("table");
 
                 if (table) {
-                    let newTable = "<table><tr><th>Name</th><th>Producer</th><th>Region</th><th>Grape</th><th>Vintage</th><th>Type</th><th>Style</th><th>Price (€)</th></tr>";
+                    let newTable = "<table>";
 
                     let rows = table.querySelectorAll("tr");
-                    for (let i = 1; i < rows.length; i++) { // Начинаем с 1, чтобы пропустить заголовок
+                    for (let i = 2; i < rows.length; i++) { // Начинаем с 2, чтобы пропустить заголовки
                         let cols = rows[i].querySelectorAll("td");
                         if (cols.length > 6) {
                             newTable += `<tr>
@@ -85,5 +90,3 @@
     </footer>
 </body>
 </html>
-
-
