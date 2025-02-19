@@ -6,20 +6,59 @@
     <title>Wine by Glass | The Cellar</title>
     <link rel="stylesheet" href="style.css">
 
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+    </style>
+
     <script>
+        const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRudIU7hLjm12jntkUX9dIrVvxfhitwHvikzHIDL7yNUhIKgZF0-Q6uPSOJV1EYrYE8HvBXO3TCG5h_/pubhtml";
+
         async function loadMenu() {
-            const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRudIU7hLjm12jntkUX9dIrVvxfhitwHvikzHIDL7yNUhIKgZF0-Q6uPSOJV1EYrYE8HvBXO3TCG5h_/pubhtml";
-            
             try {
                 let response = await fetch(sheetUrl);
                 let text = await response.text();
 
                 let parser = new DOMParser();
                 let doc = parser.parseFromString(text, "text/html");
-                let table = doc.querySelector("table"); // Найдём первую таблицу в опубликованном файле
+                let table = doc.querySelector("table");
 
                 if (table) {
-                    document.getElementById("menu").innerHTML = table.outerHTML;
+                    let newTable = "<table><tr><th>Name</th><th>Producer</th><th>Region</th><th>Grape</th><th>Vintage</th><th>Type</th><th>Style</th><th>Price (€)</th></tr>";
+
+                    let rows = table.querySelectorAll("tr");
+                    for (let i = 1; i < rows.length; i++) { // Начинаем с 1, чтобы пропустить заголовок
+                        let cols = rows[i].querySelectorAll("td");
+                        if (cols.length > 6) {
+                            newTable += `<tr>
+                                <td>${cols[0].innerText}</td>
+                                <td>${cols[1].innerText}</td>
+                                <td>${cols[2].innerText}</td>
+                                <td>${cols[3].innerText}</td>
+                                <td>${cols[4].innerText}</td>
+                                <td>${cols[5].innerText}</td>
+                                <td>${cols[6].innerText}</td>
+                                <td>${cols[7]?.innerText || "N/A"}</td>
+                            </tr>`;
+                        }
+                    }
+
+                    newTable += "</table>";
+                    document.getElementById("menu").innerHTML = newTable;
                 } else {
                     document.getElementById("menu").innerHTML = "<p>Could not load the menu. Please try again later.</p>";
                 }
@@ -46,3 +85,4 @@
     </footer>
 </body>
 </html>
+
