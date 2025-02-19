@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wine by Glass | The Cellar</title>
+    <link rel="stylesheet" href="style.css">
+
+    <script>
+        async function loadMenu() {
+            const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRudIU7hLjm12jntkUX9dIrVvxfhitwHvikzHIDL7yNUhIKgZF0-Q6uPSOJV1EYrYE8HvBXO3TCG5h_/pubhtml";
+            
+            try {
+                let response = await fetch(sheetUrl);
+                let text = await response.text();
+
+                let parser = new DOMParser();
+                let doc = parser.parseFromString(text, "text/html");
+                let table = doc.querySelector("table"); // Найдём первую таблицу в опубликованном файле
+
+                if (table) {
+                    document.getElementById("menu").innerHTML = table.outerHTML;
+                } else {
+                    document.getElementById("menu").innerHTML = "<p>Could not load the menu. Please try again later.</p>";
+                }
+            } catch (error) {
+                console.error("Error loading menu:", error);
+                document.getElementById("menu").innerHTML = "<p>Could not load the menu. Please try again later.</p>";
+            }
+        }
+
+        window.onload = loadMenu;
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Wine by Glass</h1>
+    </header>
+
+    <section>
+        <div id="menu">Loading...</div>
+    </section>
+
+    <footer>
+        <p><a href="index.html">Back to Home</a></p>
+    </footer>
+</body>
+</html>
