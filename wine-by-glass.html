@@ -7,11 +7,16 @@
     <link rel="stylesheet" href="style.css">
 
     <style>
+        .table-container {
+            overflow-x: auto; /* Добавляет прокрутку, если таблица шире экрана */
+            width: 100%;
+            max-width: 100%;
+            margin-top: 20px;
+        }
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
-            table-layout: auto;
+            table-layout: fixed; /* Устанавливаем фиксированную ширину колонок */
         }
         td {
             padding: 12px;
@@ -26,11 +31,19 @@
         .wine-name {
             font-weight: bold;
             font-size: 1.1em;
+            width: 40%; /* Устанавливаем 40% на название вина */
+        }
+        .producer {
+            width: 30%;
+        }
+        .year {
+            width: 15%;
         }
         .price {
             text-align: right;
             font-weight: bold;
             color: #b12704;
+            width: 15%;
         }
         @media (max-width: 768px) {
             table {
@@ -58,7 +71,7 @@
                 let table = doc.querySelector("table");
 
                 if (table) {
-                    let newTable = "<table>";
+                    let newTable = `<div class="table-container"><table>`;
 
                     let rows = table.querySelectorAll("tr");
                     for (let i = 2; i < rows.length; i++) { // Пропускаем заголовок
@@ -66,14 +79,14 @@
                         if (cols.length > 4) { // Убедимся, что есть все необходимые данные
                             newTable += `<tr>
                                 <td class="wine-name">${cols[0].innerText}</td>
-                                <td>${cols[1].innerText}</td>
-                                <td>${cols[4].innerText}</td> <!-- Год -->
+                                <td class="producer">${cols[1].innerText}</td>
+                                <td class="year">${cols[4].innerText}</td> <!-- Год -->
                                 <td class="price">€${cols[7]?.innerText || "N/A"}</td>
                             </tr>`;
                         }
                     }
 
-                    newTable += "</table>";
+                    newTable += "</table></div>";
                     document.getElementById("menu").innerHTML = newTable;
                 } else {
                     document.getElementById("menu").innerHTML = "<p>Could not load the menu. Please try again later.</p>";
