@@ -16,7 +16,7 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            table-layout: fixed; /* Устанавливаем фиксированную ширину колонок */
+            table-layout: fixed;
         }
         td {
             padding: 12px;
@@ -31,7 +31,7 @@
         .wine-name {
             font-weight: bold;
             font-size: 1.1em;
-            width: 40%; /* Устанавливаем 40% на название вина */
+            width: 40%;
         }
         .producer {
             width: 30%;
@@ -77,11 +77,14 @@
                     for (let i = 2; i < rows.length; i++) { // Пропускаем заголовок
                         let cols = rows[i].querySelectorAll("td");
                         if (cols.length > 4) { // Убедимся, что есть все необходимые данные
+                            let price = cols[7]?.innerText.trim(); // Проверяем цену
+                            price = price ? `€${price}` : ""; // Если пусто, убираем N/A
+
                             newTable += `<tr>
                                 <td class="wine-name">${cols[0].innerText}</td>
                                 <td class="producer">${cols[1].innerText}</td>
                                 <td class="year">${cols[4].innerText}</td> <!-- Год -->
-                                <td class="price">€${cols[7]?.innerText || "N/A"}</td>
+                                <td class="price">${price}</td>
                             </tr>`;
                         }
                     }
