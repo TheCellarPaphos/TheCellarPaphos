@@ -18,12 +18,14 @@
             border-collapse: collapse;
             table-layout: fixed;
         }
-        td {
-            padding: 8px; /* Восстановлено нормальное расстояние между строками */
+        th, td {
+            padding: 12px;
             text-align: left;
             border-bottom: 1px solid #ddd;
-            word-wrap: break-word;
-            white-space: normal;
+        }
+        th {
+            background-color: #f4f4f4;
+            font-weight: bold;
         }
         tr:hover {
             background-color: #f1f1f1;
@@ -31,26 +33,26 @@
         .wine-name {
             font-weight: bold;
             font-size: 1.1em;
-            min-width: 35%;
+            min-width: 40%;
         }
         .winery {
-            min-width: 25%;
+            min-width: 30%;
         }
         .year {
-            min-width: 10%;
+            min-width: 15%;
         }
         .price {
             text-align: right;
             font-weight: bold;
             color: #b12704;
-            min-width: 15%; /* Уменьшено пространство между колонками "Winery" и "Price" */
+            min-width: 15%;
         }
         @media (max-width: 768px) {
             table {
                 font-size: 14px;
             }
             td {
-                padding: 8px;
+                padding: 10px;
             }
             .wine-name {
                 font-size: 1em;
@@ -72,6 +74,7 @@
 
                 if (table) {
                     let newTable = `<div class="table-container"><table>`;
+                    newTable += `<tr><th>Name</th><th>Winery</th><th>Vintage</th><th>Price (€)</th></tr>`;
 
                     let rows = table.querySelectorAll("tr");
                     for (let i = 2; i < rows.length; i++) {
@@ -116,4 +119,3 @@
     </footer>
 </body>
 </html>
-
