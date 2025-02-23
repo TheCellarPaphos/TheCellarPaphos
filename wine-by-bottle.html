@@ -33,6 +33,12 @@
             font-size: 1.1em;
             min-width: 40%;
         }
+        .winery {
+            min-width: 30%;
+        }
+        .year {
+            min-width: 15%;
+        }
         .price {
             text-align: right;
             font-weight: bold;
@@ -70,12 +76,13 @@
                     let rows = table.querySelectorAll("tr");
                     for (let i = 2; i < rows.length; i++) {
                         let cols = rows[i].querySelectorAll("td");
-                        let price = cols[6]?.innerText.trim(); // Берём правильный столбец с ценой
+                        let price = cols[6]?.innerText.trim();
 
-                        if (cols.length > 6 && price) { // Загружаем только строки с ценой
+                        if (cols.length > 6 && price) {
                             newTable += `<tr>
                                 <td class="wine-name">${cols[0].innerText}</td>
-                                <td>${cols[1].innerText}</td>
+                                <td class="winery">${cols[2].innerText}</td>
+                                <td class="year">${cols[1].innerText}</td>
                                 <td class="price">€${price}</td>
                             </tr>`;
                         }
@@ -109,4 +116,3 @@
     </footer>
 </body>
 </html>
-
