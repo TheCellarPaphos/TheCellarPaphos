@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wine by Bottle | The Cellar</title>
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .table-container {
+            overflow-x: auto;
+            width: 100%;
+            max-width: 100%;
+            margin-top: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+        td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            word-wrap: break-word;
+            white-space: normal;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        .wine-name {
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        .price {
+            text-align: right;
+            font-weight: bold;
+            color: #b12704;
+        }
+        @media (max-width: 768px) {
+            table {
+                font-size: 14px;
+            }
+            td {
+                padding: 8px;
+            }
+            .wine-name {
+                font-size: 1em;
+            }
+        }
+    </style>
+
+    <script>
+        const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRudIU7hLjm12jntkUX9dIrVvxfhitwHvikzHIDL7yNUhIKgZF0-Q6uPSOJV1EYrYE8HvBXO3TCG5h_/pubhtml?gid=772031568&single=true";
+
+        async function loadMenu() {
+            try {
+                let response = await fetch(sheetUrl);
+                let text = await response.text();
+
+                let parser = new DOMParser();
+                let doc = parser.parseFromString(text, "text/html");
+                let table = doc.querySelector("table");
+
+                if (table) {
+                    let newTable = `<div class="table-container"><table>`;
+
+                    let rows = table.querySelectorAll("tr");
+                    for (let i = 2; i < rows.length; i++) {
+                        let cols = rows[i].querySelectorAll("td");
+                        if (cols.length > 3) {
+                            let price = cols[3]?.innerText.trim();
+                            price = price ? `€${price}` : "";
+
+                            newTable += `<tr>
+                                <td class="wine-name">${cols[0].innerText}</td>
+                                <td>${cols[1].innerText}</td>
+                                <td class="price">${price}</td>
+                            </tr>`;
+                        }
+                    }
+
+                    newTable += "</table></div>";
+                    document.getElementById("menu").innerHTML = newTable;
+                } else {
+                    document.getElementById("menu").innerHTML = "<p>Could not load the menu. Please try again later.</p>";
+                }
+            } catch (error) {
+                console.error("Error loading menu:", error);
+                document.getElementById("menu").innerHTML = "<p>Could not load the menu. Please try again later.</p>";
+            }
+        }
+
+        window.onload = loadMenu;
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Wine by Bottle</h1>
+    </header>
+
+    <section>
+        <div id="menu">Loading...</div>
+    </section>
+
+    <footer>
+        <p><a href="index.html">Back to Home</a></p>
+    </footer>
+</body>
+</html>
