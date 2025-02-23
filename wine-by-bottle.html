@@ -19,7 +19,7 @@
             table-layout: fixed;
         }
         td {
-            padding: 12px;
+            padding: 8px; /* Уменьшено расстояние между строками */
             text-align: left;
             border-bottom: 1px solid #ddd;
             word-wrap: break-word;
@@ -31,10 +31,10 @@
         .wine-name {
             font-weight: bold;
             font-size: 1.1em;
-            min-width: 40%;
+            min-width: 35%; /* Сделано более компактным */
         }
         .winery {
-            min-width: 30%;
+            min-width: 25%; /* Уменьшено пространство */
         }
         .year {
             min-width: 15%;
@@ -43,14 +43,14 @@
             text-align: right;
             font-weight: bold;
             color: #b12704;
-            min-width: 15%;
+            min-width: 10%;
         }
         @media (max-width: 768px) {
             table {
                 font-size: 14px;
             }
             td {
-                padding: 8px;
+                padding: 6px; /* Ещё меньше отступов на мобильных */
             }
             .wine-name {
                 font-size: 1em;
@@ -116,4 +116,3 @@
     </footer>
 </body>
 </html>
-
