@@ -31,11 +31,13 @@
         .wine-name {
             font-weight: bold;
             font-size: 1.1em;
+            min-width: 40%;
         }
         .price {
             text-align: right;
             font-weight: bold;
             color: #b12704;
+            min-width: 15%;
         }
         @media (max-width: 768px) {
             table {
@@ -68,14 +70,13 @@
                     let rows = table.querySelectorAll("tr");
                     for (let i = 2; i < rows.length; i++) {
                         let cols = rows[i].querySelectorAll("td");
-                        if (cols.length > 3) {
-                            let price = cols[3]?.innerText.trim();
-                            price = price ? `€${price}` : "";
+                        let price = cols[6]?.innerText.trim(); // Берём правильный столбец с ценой
 
+                        if (cols.length > 6 && price) { // Загружаем только строки с ценой
                             newTable += `<tr>
                                 <td class="wine-name">${cols[0].innerText}</td>
                                 <td>${cols[1].innerText}</td>
-                                <td class="price">${price}</td>
+                                <td class="price">€${price}</td>
                             </tr>`;
                         }
                     }
