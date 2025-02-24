@@ -18,14 +18,12 @@
             border-collapse: collapse;
             table-layout: fixed;
         }
-        th, td {
+        td {
             padding: 12px;
             text-align: left;
             border-bottom: 1px solid #ddd;
-        }
-        th {
-            background-color: #f4f4f4;
-            font-weight: bold;
+            word-wrap: break-word;
+            white-space: normal;
         }
         tr:hover {
             background-color: #f1f1f1;
@@ -33,26 +31,26 @@
         .wine-name {
             font-weight: bold;
             font-size: 1.1em;
-            min-width: 40%;
+            width: 40%;
         }
         .winery {
-            min-width: 30%;
+            width: 30%;
         }
         .year {
-            min-width: 15%;
+            width: 15%;
         }
         .price {
             text-align: right;
             font-weight: bold;
             color: #b12704;
-            min-width: 15%;
+            width: 15%;
         }
         @media (max-width: 768px) {
             table {
                 font-size: 14px;
             }
             td {
-                padding: 10px;
+                padding: 8px;
             }
             .wine-name {
                 font-size: 1em;
@@ -74,19 +72,19 @@
 
                 if (table) {
                     let newTable = `<div class="table-container"><table>`;
-                    newTable += `<tr><th>Name</th><th>Winery</th><th>Vintage</th><th>Price (€)</th></tr>`;
-
+                    
                     let rows = table.querySelectorAll("tr");
                     for (let i = 2; i < rows.length; i++) {
                         let cols = rows[i].querySelectorAll("td");
-                        let price = cols[6]?.innerText.trim();
+                        if (cols.length > 4) {
+                            let price = cols[7]?.innerText.trim();
+                            price = price ? `€${price}` : "";
 
-                        if (cols.length > 6 && price) {
                             newTable += `<tr>
                                 <td class="wine-name">${cols[0].innerText}</td>
-                                <td class="winery">${cols[2].innerText}</td>
-                                <td class="year">${cols[1].innerText}</td>
-                                <td class="price">€${price}</td>
+                                <td class="winery">${cols[1].innerText}</td>
+                                <td class="year">${cols[4].innerText}</td>
+                                <td class="price">${price}</td>
                             </tr>`;
                         }
                     }
@@ -119,3 +117,4 @@
     </footer>
 </body>
 </html>
+
