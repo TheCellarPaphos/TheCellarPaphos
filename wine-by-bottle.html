@@ -34,10 +34,10 @@
             width: 40%;
         }
         .winery {
-            width: 30%;
+            width: 35%;
         }
         .year {
-            width: 15%;
+            width: 10%;
         }
         .price {
             text-align: right;
@@ -76,14 +76,14 @@
                     let rows = table.querySelectorAll("tr");
                     for (let i = 2; i < rows.length; i++) {
                         let cols = rows[i].querySelectorAll("td");
-                        if (cols.length > 4) {
-                            let price = cols[7]?.innerText.trim();
+                        if (cols.length > 6) {
+                            let price = cols[6]?.innerText.trim();
                             price = price ? `€${price}` : "";
 
                             newTable += `<tr>
                                 <td class="wine-name">${cols[0].innerText}</td>
                                 <td class="winery">${cols[1].innerText}</td>
-                                <td class="year">${cols[4].innerText}</td>
+                                <td class="year">${cols[3].innerText}</td>
                                 <td class="price">${price}</td>
                             </tr>`;
                         }
