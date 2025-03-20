@@ -26,26 +26,25 @@
     </style>
 
     <script>
-        const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRudIU7hLjm12jntkUX9dIrVvxfhitwHvikzHIDL7yNUhIKgZF0-Q6uPSOJV1EYrYE8HvBXO3TCG5h_/pubhtml?gid=644217524&single=true";
+        const sheetId = "YOUR_GOOGLE_SHEET_ID";
+        const apiKey = "YOUR_GOOGLE_API_KEY";
+        const sheetName = "Sheet3";
+        const sheetUrl = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetName}?key=${apiKey}`;
 
         async function loadTastingSets() {
             try {
                 let response = await fetch(sheetUrl);
-                let text = await response.text();
+                let data = await response.json();
+                let rows = data.values;
+                console.log("Loaded data:", rows); // Логируем загруженные данные
 
-                let parser = new DOMParser();
-                let doc = parser.parseFromString(text, "text/html");
-                let table = doc.querySelector("table");
-
-                if (table) {
+                if (rows.length > 1) {
                     let setsHTML = "";
-                    let rows = table.querySelectorAll("tr");
-                    for (let i = 2; i < rows.length; i++) {
-                        let cols = rows[i].querySelectorAll("td");
-                        if (cols.length > 1) {
-                            let title = cols[0].innerText.trim();
-                            let price = cols[1].innerText.trim();
-
+                    for (let i = 1; i < rows.length; i++) { // Пропускаем заголовок
+                        let cols = rows[i];
+                        if (cols.length >= 2 && cols[0].trim() !== "" && cols[1].trim() !== "") {
+                            let title = cols[0].trim();
+                            let price = cols[1].trim();
                             setsHTML += `<div class="set-container">
                                 <h2>${title}</h2>
                                 <p class="price">Price: €${price}</p>
@@ -54,7 +53,7 @@
                     }
                     document.getElementById("sets").innerHTML = setsHTML;
                 } else {
-                    document.getElementById("sets").innerHTML = "<p>Could not load the tasting sets. Please try again later.</p>";
+                    document.getElementById("sets").innerHTML = "<p>No tasting sets available.</p>";
                 }
             } catch (error) {
                 console.error("Error loading tasting sets:", error);
@@ -77,3 +76,4 @@
     </footer>
 </body>
 </html>
+
