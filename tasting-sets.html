@@ -26,22 +26,23 @@
     </style>
 
     <script>
-        const sheetId = "YOUR_GOOGLE_SHEET_ID";
+        const sheetId = "1Gcd4D5FeI3bhveOc4n4eoPk5wpZPBi7_bg9T-9LX3XY";
         const apiKey = "YOUR_GOOGLE_API_KEY";
-        const range = "Sheet3!A:B"; // Указываем диапазон столбцов с названиями и ценами
+        const sheetName = "Sheet3"; // Проверьте точное название листа
+        const range = `${sheetName}!A:B`;
         const sheetUrl = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${range}?key=${apiKey}`;
 
         async function loadTastingSets() {
             try {
                 let response = await fetch(sheetUrl);
                 let data = await response.json();
-
+                
                 if (!data.values || data.values.length < 2) {
                     throw new Error("No data returned from Google Sheets");
                 }
                 
                 let rows = data.values;
-                console.log("Loaded data:", rows); // Логируем загруженные данные
+                console.log("Loaded data:", rows);
 
                 let setsHTML = "";
                 for (let i = 1; i < rows.length; i++) { // Пропускаем заголовок
