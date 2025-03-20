@@ -26,6 +26,12 @@
             font-weight: bold;
             color: #b12704;
         }
+        .duration {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 10px;
+        }
     </style>
 
     <script>
@@ -45,15 +51,17 @@
                     let rows = table.querySelectorAll("tr");
                     for (let i = 2; i < rows.length; i++) {
                         let cols = rows[i].querySelectorAll("td");
-                        if (cols.length > 2) {
+                        if (cols.length > 3) {
                             let title = cols[0].innerText.trim();
-                            let description = cols[1].innerText.trim();
-                            let price = cols[2].innerText.trim();
+                            let price = cols[1].innerText.trim();
+                            let duration = cols[2].innerText.trim();
+                            let description = cols[3].innerText.trim();
 
                             setsHTML += `<div class="set-container">
                                 <h2>${title}</h2>
+                                <p class="price">Price: ${price}</p>
+                                <p class="duration">Duration: ${duration}</p>
                                 <p class="description">${description}</p>
-                                <p class="price">Price: €${price}</p>
                             </div>`;
                         }
                     }
