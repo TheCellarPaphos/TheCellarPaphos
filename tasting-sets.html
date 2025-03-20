@@ -12,30 +12,21 @@
             margin: 20px auto;
             padding: 20px;
             border-bottom: 1px solid #ddd;
+            text-align: center;
         }
         h2 {
             color: #333;
-        }
-        .description {
-            font-size: 1rem;
-            color: #555;
-            margin-bottom: 10px;
         }
         .price {
             font-size: 1.2rem;
             font-weight: bold;
             color: #b12704;
-        }
-        .duration {
-            font-size: 1rem;
-            font-weight: bold;
-            color: #555;
-            margin-bottom: 10px;
+            margin-top: 5px;
         }
     </style>
 
     <script>
-        const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRudIU7hLjm12jntkUX9dIrVvxfhitwHvikzHIDL7yNUhIKgZF0-Q6uPSOJV1EYrYE8HvBXO3TCG5h_/pubhtml?gid=772031568&single=true";
+        const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRudIU7hLjm12jntkUX9dIrVvxfhitwHvikzHIDL7yNUhIKgZF0-Q6uPSOJV1EYrYE8HvBXO3TCG5h_/pubhtml?gid=644217524&single=true";
 
         async function loadTastingSets() {
             try {
@@ -51,17 +42,13 @@
                     let rows = table.querySelectorAll("tr");
                     for (let i = 2; i < rows.length; i++) {
                         let cols = rows[i].querySelectorAll("td");
-                        if (cols.length > 3) {
+                        if (cols.length > 1) {
                             let title = cols[0].innerText.trim();
                             let price = cols[1].innerText.trim();
-                            let duration = cols[2].innerText.trim();
-                            let description = cols[3].innerText.trim();
 
                             setsHTML += `<div class="set-container">
                                 <h2>${title}</h2>
-                                <p class="price">Price: ${price}</p>
-                                <p class="duration">Duration: ${duration}</p>
-                                <p class="description">${description}</p>
+                                <p class="price">Price: €${price}</p>
                             </div>`;
                         }
                     }
@@ -90,4 +77,3 @@
     </footer>
 </body>
 </html>
-
