@@ -1,81 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tasting Sets | The Cellar</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tasting Sets | The Cellar</title>
+  <link rel="stylesheet" href="style.css" />
 
-    <style>
-        .set-container {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
-            border-bottom: 1px solid #ddd;
-            text-align: center;
-        }
-        h2 {
-            color: #333;
-        }
-        .price {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #b12704;
-            margin-top: 5px;
-        }
-    </style>
-
-    <script>
-        const sheetId = "1Gcd4D5FeI3bhveOc4n4eoPk5wpZPBi7_bg9T-9LX3XY";
-        const apiKey = "YOUR_GOOGLE_API_KEY";
-        const sheetName = "Sheet3"; // Проверьте точное название листа
-        const range = `${sheetName}!A:B`;
-        const sheetUrl = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${range}?key=${apiKey}`;
-
-        async function loadTastingSets() {
-            try {
-                let response = await fetch(sheetUrl);
-                let data = await response.json();
-                
-                if (!data.values || data.values.length < 2) {
-                    throw new Error("No data returned from Google Sheets");
-                }
-                
-                let rows = data.values;
-                console.log("Loaded data:", rows);
-
-                let setsHTML = "";
-                for (let i = 1; i < rows.length; i++) { // Пропускаем заголовок
-                    let cols = rows[i];
-                    if (cols.length >= 2 && cols[0].trim() !== "" && cols[1].trim() !== "") {
-                        let title = cols[0].trim();
-                        let price = cols[1].trim();
-                        setsHTML += `<div class="set-container">
-                            <h2>${title}</h2>
-                            <p class="price">Price: €${price}</p>
-                        </div>`;
-                    }
-                }
-                document.getElementById("sets").innerHTML = setsHTML;
-            } catch (error) {
-                console.error("Error loading tasting sets:", error);
-                document.getElementById("sets").innerHTML = `<p>Could not load the tasting sets: ${error.message}</p>`;
-            }
-        }
-
-        window.onload = loadTastingSets;
-    </script>
+  <style>
+    .set-container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      border-bottom: 1px solid #ddd;
+      text-align: center;
+    }
+    h2 {
+      color: #333;
+    }
+    .price {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #b12704;
+      margin-top: 5px;
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <h1>Tasting Sets</h1>
-    </header>
+  <header>
+    <h1>Tasting Sets</h1>
+  </header>
 
-    <section id="sets">Loading...</section>
+  <section id="sets">Loading...</section>
 
-    <footer>
-        <p><a href="index.html">Back to Home</a></p>
-    </footer>
+  <footer>
+    <p><a href="index.html">Back to Home</a></p>
+  </footer>
+
+  <script>
+    fetch('https://opensheet.elk.sh/1Gcd4D5FeI3bhveOc4n4eoPk5wpZPBi7_bg9T-9LX3XY/Sheet3')
+      .then(response => response.json())
+      .then(data => {
+        let setsHTML = "";
+        data.forEach(set => {
+          setsHTML += `
+            <div class="set-container">
+              <h2>${set["Name of set"]}</h2>
+              <p class="price">Price: €${set.Price}</p>
+              <p><strong>Duration:</strong> ${set.Duration}</p>
+              <p>${set.Description}</p>
+            </div>
+          `;
+        });
+        document.getElementById("sets").innerHTML = setsHTML;
+      })
+      .catch(error => {
+        console.error("Error loading tasting sets:", error);
+        document.getElementById("sets").innerHTML = "<p>Could not load tasting sets.</p>";
+      });
+  </script>
 </body>
 </html>
-
