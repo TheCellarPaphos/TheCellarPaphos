@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Food Menu – THE CELLAR</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://apis.google.com/js/api.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Food Menu</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="wine-by-glass.html">Wine by Glass</a>
+      <a href="wine-by-bottle.html">Wine by Bottle</a>
+      <a href="tasting-sets.html">Tasting Sets</a>
+      <a href="food-menu.html" class="active">Food Menu</a>
+    </nav>
+  </header>
+
+  <main>
+    <div id="food-container" class="wine-list"></div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 THE CELLAR – Paphos</p>
+  </footer>
+
+  <script>
+    const sheetID = '1Gcd4D5FeI3bhveOc4n4eoPk5wpZPBi7_bg9T-9LX3XY';
+    const sheetName = 'Sheet 4';
+    const apiKey = 'YOUR_GOOGLE_SHEETS_API_KEY';
+
+    function fetchFoodMenu() {
+      const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetID}/values/${sheetName}?key=${apiKey}`;
+
+      fetch(url)
+        .then((response) => response.json())
+        .then((data) => {
+          const entries = data.values;
+          const headers = entries[0];
+          const items = entries.slice(1);
+
+          const nameIdx = headers.indexOf('Name');
+          const descIdx = headers.indexOf('Description');
+          const priceIdx = headers.indexOf('Price');
+
+          const container = document.getElementById('food-container');
+          container.innerHTML = '';
+
+          items.forEach((item) => {
+            const card = document.createElement('div');
+            card.className = 'wine-card';
+
+            const name = item[nameIdx] || '';
+            const desc = item[descIdx] || '';
+            const price = item[priceIdx] || '';
+
+            card.innerHTML = `
+              <h2>${name}</h2>
+              <p>${desc}</p>
+              <p class="price">€${price}</p>
+            `;
+
+            container.appendChild(card);
+          });
+        })
+        .catch((error) => console.error('Error fetching food menu:', error));
+    }
+
+    window.onload = fetchFoodMenu;
+  </script>
+</body>
+</html>
