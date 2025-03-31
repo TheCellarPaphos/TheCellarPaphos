@@ -27,7 +27,7 @@
   </footer>
 
   <script>
-    const url = "https://docs.google.com/spreadsheets/d/1Gcd4D5FeI3bhveOc4n4eoPk5wpZPBi7_bg9T-9LX3XY/gviz/tq?sheet=Sheet%204";
+    const url = "https://docs.google.com/spreadsheets/d/1Gcd4D5FeI3bhveOc4n4eoPk5wpZPBi7_bg9T-9LX3XY/gviz/tq?sheet=Sheet4";
 
     fetch(url)
       .then((res) => res.text())
@@ -40,13 +40,15 @@
 
         rows.forEach((row) => {
           const name = row.c[0]?.v || "";
-          const description = row.c[1]?.v || "";
+          const weight = row.c[1]?.v || "";
           const price = row.c[2]?.v || "";
+          const description = row.c[3]?.v || "";
 
           const card = document.createElement("div");
           card.className = "wine-card";
           card.innerHTML = `
             <h2>${name}</h2>
+            <p><strong>Weight:</strong> ${weight} g</p>
             <p>${description}</p>
             <p class="price">€${price}</p>
           `;
