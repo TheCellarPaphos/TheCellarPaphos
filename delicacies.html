@@ -59,10 +59,10 @@
 
         rows.forEach(row => {
           const name = row.c[0]?.v || "";
-          const description = row.c[1]?.v || "";
-          const price = row.c[2]?.v || "";
+          const price = row.c[1]?.v || "";
+          const description = row.c[2]?.v || "";
 
-          if (name && description && price) {
+          if (name || description || price) {
             const div = document.createElement("div");
             div.className = "dish";
             div.innerHTML = `
