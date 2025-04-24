@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Delicacies Menu | The Cellar</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 2em;
+    }
+    th, td {
+      padding: 0.75em;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    th:last-child, td:last-child {
+      text-align: right;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1 style="font-size: 3rem; text-align: center; text-transform: uppercase;">The Cellar - Delicacies Menu</h1>
+  </header>
+
+  <section>
+    <h2>Traditional Cypriot Delicacies</h2>
+    <p>Explore our selection of premium cured meats and grilled cheese, prepared using traditional Cypriot methods and ideal for pairing with our unique wine collection.</p>
+
+    <table id="delicacies-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Price (€)</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <footer>
+    <p><strong>Address:</strong> Poseidonos 47, Limnaria Westpark, Paphos</p>
+    <p><strong>Opening Hours:</strong> Tuesday - Sunday: 17:00 - 23:00 | Monday: Closed</p>
+    <p><strong>Phone:</strong> <a href="tel:+35795961302">+357-95961302</a></p>
+    <p><strong>Email:</strong> <a href="mailto:thecellarpaphos@gmail.com">thecellarpaphos@gmail.com</a></p>
+    <p>Follow us: 
+      <a href="https://www.facebook.com/thecellarpaphos" target="_blank">Facebook</a> | 
+      <a href="https://www.instagram.com/thecellarpaphos" target="_blank">Instagram</a>
+    </p>
+  </footer>
+
+  <script>
+    const sheetId = "1Gcd4D5FeI3bhveOc4n4eoPk5wpZPBi7_bg9T-9LX3XY";
+    const sheetName = "Sheet5";
+    const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=${sheetName}`;
+
+    fetch(url)
+      .then(res => res.text())
+      .then(rep => {
+        const json = JSON.parse(rep.substring(47).slice(0, -2));
+        const rows = json.table.rows;
+        const tableBody = document.querySelector("#delicacies-table tbody");
+
+        rows.forEach(row => {
+          const name = row.c[0]?.v || "";
+          const price = row.c[1]?.v || "";
+          const description = row.c[2]?.v || "";
+
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td><strong>${name}</strong></td>
+            <td>${description}</td>
+            <td style="text-align: right;">€${price}</td>
+          `;
+          tableBody.appendChild(tr);
+        });
+      });
+  </script>
+</body>
+</html>
