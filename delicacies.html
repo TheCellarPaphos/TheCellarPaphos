@@ -57,7 +57,7 @@
         const rows = json.table.rows;
         const container = document.getElementById("delicacies-container");
 
-        rows.forEach(row => {
+        rows.slice(1).forEach(row => {
           const name = row.c[0]?.v || "";
           const price = row.c[1]?.v || "";
           const description = row.c[2]?.v || "";
