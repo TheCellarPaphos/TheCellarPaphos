@@ -61,12 +61,14 @@
         const rows = json.table.rows;
         const container = document.getElementById("delicacies-container");
 
+        console.log("Parsed rows:", rows.map(r => r.c.map(cell => cell?.v))); // лог для отладки
+
         rows.slice(1).forEach(row => {
           const name = row.c[0]?.v || "";
           const price = row.c[1]?.v || "";
-          const description = row.c[3]?.v || "";
+          const description = row.c[2]?.v || "";
 
-          if (name || description || price) {
+          if (name || price || description) {
             const div = document.createElement("div");
             div.className = "dish";
             div.innerHTML = `
@@ -76,6 +78,9 @@
             container.appendChild(div);
           }
         });
+      })
+      .catch(error => {
+        console.error("Error fetching or parsing data:", error);
       });
   </script>
 </body>
