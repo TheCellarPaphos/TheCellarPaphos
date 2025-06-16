@@ -1,114 +1,121 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Reservation | THE CELLAR</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <title>Reserve a Table | THE CELLAR</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    .form-container {
-      background: rgba(255, 255, 255, 0.9);
+    body {
+      font-family: 'Montserrat', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    form {
       max-width: 400px;
-      margin: 80px auto;
+      margin: 60px auto;
+      background: rgba(255, 255, 255, 0.85);
       padding: 30px;
       border-radius: 12px;
       box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
     }
 
     label {
+      color: #000;
       font-weight: 500;
-      margin-top: 10px;
       display: block;
+      margin-bottom: 5px;
     }
 
     input, select {
       width: 100%;
-      padding: 12px;
-      margin-top: 6px;
-      margin-bottom: 16px;
+      padding: 14px 10px;
+      margin-bottom: 18px;
       border: 1px solid #ccc;
       border-radius: 6px;
-      font-size: 15px;
       box-sizing: border-box;
+      font-size: 15px;
     }
 
-    button {
+    button[type="submit"] {
       width: 100%;
-      padding: 12px;
-      background-color: #000;
-      color: white;
+      padding: 14px;
+      background-color: #1a1a1a;
+      color: #fff;
       border: none;
       border-radius: 6px;
       font-weight: bold;
       font-size: 16px;
       cursor: pointer;
+      transition: background-color 0.3s ease;
     }
 
-    button:hover {
+    button[type="submit"]:hover {
       background-color: #333;
     }
 
     .back-button {
-      margin-top: 20px;
-      display: inline-block;
-      background-color: #eee;
-      color: #333;
+      display: block;
+      margin: 20px auto 0;
       padding: 10px 20px;
+      background-color: #f0f0f0;
+      color: #222;
+      border: 1px solid #ccc;
       border-radius: 6px;
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 14px;
+      font-weight: 500;
       text-align: center;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
     }
 
     .back-button:hover {
       background-color: #ddd;
     }
 
-    .back-wrapper {
-      text-align: center;
+    @media (max-width: 480px) {
+      form {
+        margin: 30px 20px;
+        padding: 20px;
+      }
     }
   </style>
 </head>
 <body>
+  <form action="https://formsubmit.co/thecellarpaphos@gmail.com" method="POST">
+    <input type="hidden" name="_captcha" value="false">
+    <input type="hidden" name="_next" value="https://thecellarpaphos.com/thank-you.html">
 
-  <div class="form-container">
-    <form action="https://formsubmit.co/thecellarpaphos@gmail.com" method="POST">
-      <input type="hidden" name="_captcha" value="false">
-      <input type="hidden" name="_next" value="https://thecellarpaphos.com/thank-you.html">
+    <label for="guests">Guests:</label>
+    <select id="guests" name="Guests" required>
+      <option value="" disabled selected>Select number of guests</option>
+      <option>1</option><option>2</option><option>3</option>
+      <option>4</option><option>5</option><option>6</option>
+    </select>
 
-      <label for="guests">Guests:</label>
-      <select id="guests" name="Guests" required>
-        <option value="" disabled selected>Select number of guests</option>
-        <option>1</option><option>2</option><option>3</option>
-        <option>4</option><option>5</option><option>6</option>
-      </select>
+    <label for="date">Date:</label>
+    <input type="date" id="date" name="Date" required>
 
-      <label for="date">Date:</label>
-      <input type="date" id="date" name="Date" required>
+    <label for="time">Time:</label>
+    <select id="time" name="Time" required>
+      <option value="" disabled selected>Select time</option>
+      <option>17:00</option><option>17:30</option><option>18:00</option>
+      <option>18:30</option><option>19:00</option><option>19:30</option>
+      <option>20:00</option><option>20:30</option><option>21:00</option>
+      <option>21:30</option><option>22:00</option>
+    </select>
 
-      <label for="time">Time:</label>
-      <select id="time" name="Time" required>
-        <option value="" disabled selected>Select time</option>
-        <option>17:00</option><option>17:30</option><option>18:00</option>
-        <option>18:30</option><option>19:00</option><option>19:30</option>
-        <option>20:00</option><option>20:30</option><option>21:00</option>
-        <option>21:30</option><option>22:00</option>
-      </select>
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="Name" required>
 
-      <label for="name">Name:</label>
-      <input type="text" id="name" name="Name" required>
+    <label for="phone">Phone:</label>
+    <input type="tel" id="phone" name="Phone" placeholder="+357..." required>
 
-      <label for="phone">Phone:</label>
-      <input type="tel" id="phone" name="Phone" placeholder="+357..." required>
+    <button type="submit">Book Now</button>
+  </form>
 
-      <button type="submit">Book Now</button>
-    </form>
-
-    <div class="back-wrapper">
-      <a href="index.html" class="back-button">← Back to Home</a>
-    </div>
-  </div>
-
+  <a href="index.html" class="back-button">Back to Home</a>
 </body>
 </html>
