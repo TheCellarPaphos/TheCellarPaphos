@@ -1,50 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Reservation | The Cellar</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <title>Reservation | THE CELLAR</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    form label {
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Montserrat', sans-serif;
+      background-image: url('background.jpg'); /* замените при необходимости */
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      color: #222;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 60px auto;
+      background-color: rgba(255, 255, 255, 0.92);
+      padding: 30px 25px;
+      border-radius: 15px;
+      box-shadow: 0 0 18px rgba(0,0,0,0.15);
+    }
+
+    label {
       display: block;
-      margin-top: 1em;
-      font-weight: bold;
-      text-align: left;
+      margin-bottom: 6px;
+      font-weight: 500;
     }
 
-    form input,
-    form select {
+    input, select {
       width: 100%;
-      padding: 10px;
-      font-size: 1rem;
-      margin-top: 0.3em;
+      padding: 10px 12px;
+      margin-bottom: 18px;
       border: 1px solid #ccc;
-      border-radius: 5px;
+      border-radius: 6px;
+      font-size: 15px;
     }
 
-    .back-link {
-      display: inline-block;
-      margin: 1em auto 2em;
-      padding: 0.5em 1em;
-      background-color: #eee;
-      border: 1px solid #ccc;
+    button {
+      width: 100%;
+      background-color: #2d1f1a; /* тёмно-шоколадный цвет */
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #1b110e;
+    }
+
+    .back-button {
+      display: block;
+      margin: 25px auto 0;
+      text-align: center;
+      background-color: transparent;
+      color: #2d1f1a;
+      border: 2px solid #2d1f1a;
+      border-radius: 6px;
+      padding: 10px 20px;
+      font-weight: 500;
       text-decoration: none;
-      color: black;
-      border-radius: 5px;
+      transition: all 0.3s ease;
+      max-width: 200px;
+    }
+
+    .back-button:hover {
+      background-color: #2d1f1a;
+      color: #fff;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        margin: 40px 15px;
+        padding: 20px;
+      }
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <h1 style="font-size: 2.5rem; text-align: center;">Reservation</h1>
-    <p style="text-align: center; margin-top: 0.5em;">
-      <a href="index.html" style="text-decoration: none; color: black;">← Back to Main Menu</a>
-    </p>
-  </header>
-
-  <section>
+  <div class="container">
     <form action="https://formsubmit.co/thecellarpaphos@gmail.com" method="POST">
       <input type="hidden" name="_captcha" value="false">
       <input type="hidden" name="_next" value="https://thecellarpaphos.com/thank-you.html">
@@ -76,22 +119,10 @@
 
       <button type="submit">Book Now</button>
     </form>
-  </section>
 
-  <div style="text-align: center; margin-top: 2em;">
-    <a href="index.html" class="back-link">← Back to Home</a>
+    <a class="back-button" href="index.html">← Back to Home</a>
   </div>
-
-  <footer style="margin-top: 3em; text-align: center; font-size: 0.9rem;">
-    <p><strong>Address:</strong> Poseidonos 47, Limnaria Westpark, Paphos</p>
-    <p><strong>Opening Hours:</strong> Tuesday - Sunday: 17:00 - 23:00 | Monday: Closed</p>
-    <p><strong>Phone:</strong> <a href="tel:+35795961302">+357-95961302</a></p>
-    <p><strong>Email:</strong> <a href="mailto:thecellarpaphos@gmail.com">thecellarpaphos@gmail.com</a></p>
-    <p>Follow us:
-      <a href="https://www.facebook.com/thecellarpaphos" target="_blank">Facebook</a> |
-      <a href="https://www.instagram.com/thecellarpaphos" target="_blank">Instagram</a>
-    </p>
-  </footer>
 
 </body>
 </html>
+
