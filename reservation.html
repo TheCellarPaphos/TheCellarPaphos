@@ -1,68 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Reserve a Table | THE CELLAR</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Reservation | The Cellar</title>
+  <link rel="stylesheet" href="style.css" />
   <style>
-    body {
-      font-family: 'Montserrat', sans-serif;
-      background-color: #fff;
-      padding: 40px 20px;
-      margin: 0;
+    form label {
+      display: block;
+      margin-top: 1em;
+      font-weight: bold;
+      text-align: left;
     }
-    form {
-      max-width: 500px;
-      margin: 0 auto;
-      font-size: 16px;
-    }
-    input, select {
+
+    form input,
+    form select {
       width: 100%;
       padding: 10px;
-      margin-bottom: 15px;
+      font-size: 1rem;
+      margin-top: 0.3em;
+      border: 1px solid #ccc;
+      border-radius: 5px;
     }
-    button {
-      width: 100%;
-      padding: 12px;
-      background-color: #000;
-      color: #fff;
-      border: none;
-      font-weight: bold;
-      cursor: pointer;
+
+    .back-link {
+      display: inline-block;
+      margin: 1em auto 2em;
+      padding: 0.5em 1em;
+      background-color: #eee;
+      border: 1px solid #ccc;
+      text-decoration: none;
+      color: black;
+      border-radius: 5px;
     }
   </style>
 </head>
 <body>
-  <form action="https://formsubmit.co/thecellarpaphos@gmail.com" method="POST">
-    <input type="hidden" name="_captcha" value="false">
-    <input type="hidden" name="_next" value="https://thecellarpaphos.com/thank-you.html">
 
-    <label for="guests">Guests:</label><br>
-    <select id="guests" name="Guests" required>
-      <option value="" disabled selected>Select number of guests</option>
-      <option>1</option><option>2</option><option>3</option>
-      <option>4</option><option>5</option><option>6</option>
-    </select>
+  <header>
+    <h1 style="font-size: 2.5rem; text-align: center;">Reservation</h1>
+    <p style="text-align: center; margin-top: 0.5em;">
+      <a href="index.html" style="text-decoration: none; color: black;">← Back to Main Menu</a>
+    </p>
+  </header>
 
-    <label for="date">Date:</label><br>
-    <input type="date" id="date" name="Date" required>
+  <section>
+    <form action="https://formsubmit.co/thecellarpaphos@gmail.com" method="POST">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_next" value="https://thecellarpaphos.com/thank-you.html">
 
-    <label for="time">Time:</label><br>
-    <select id="time" name="Time" required>
-      <option value="" disabled selected>Select time</option>
-      <option>17:00</option><option>17:30</option><option>18:00</option>
-      <option>18:30</option><option>19:00</option><option>19:30</option>
-      <option>20:00</option><option>20:30</option><option>21:00</option>
-      <option>21:30</option><option>22:00</option>
-    </select>
+      <label for="guests">Guests:</label>
+      <select id="guests" name="Guests" required>
+        <option value="" disabled selected>Select number of guests</option>
+        <option>1</option><option>2</option><option>3</option>
+        <option>4</option><option>5</option><option>6</option>
+      </select>
 
-    <label for="name">Name:</label><br>
-    <input type="text" id="name" name="Name" required>
+      <label for="date">Date:</label>
+      <input type="date" id="date" name="Date" required>
 
-    <label for="phone">Phone:</label><br>
-    <input type="tel" id="phone" name="Phone" placeholder="+357..." required>
+      <label for="time">Time:</label>
+      <select id="time" name="Time" required>
+        <option value="" disabled selected>Select time</option>
+        <option>17:00</option><option>17:30</option><option>18:00</option>
+        <option>18:30</option><option>19:00</option><option>19:30</option>
+        <option>20:00</option><option>20:30</option><option>21:00</option>
+        <option>21:30</option><option>22:00</option>
+      </select>
 
-    <button type="submit">Book Now</button>
-  </form>
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="Name" required>
+
+      <label for="phone">Phone:</label>
+      <input type="tel" id="phone" name="Phone" placeholder="+357..." required>
+
+      <button type="submit">Book Now</button>
+    </form>
+  </section>
+
+  <div style="text-align: center; margin-top: 2em;">
+    <a href="index.html" class="back-link">← Back to Home</a>
+  </div>
+
+  <footer style="margin-top: 3em; text-align: center; font-size: 0.9rem;">
+    <p><strong>Address:</strong> Poseidonos 47, Limnaria Westpark, Paphos</p>
+    <p><strong>Opening Hours:</strong> Tuesday - Sunday: 17:00 - 23:00 | Monday: Closed</p>
+    <p><strong>Phone:</strong> <a href="tel:+35795961302">+357-95961302</a></p>
+    <p><strong>Email:</strong> <a href="mailto:thecellarpaphos@gmail.com">thecellarpaphos@gmail.com</a></p>
+    <p>Follow us:
+      <a href="https://www.facebook.com/thecellarpaphos" target="_blank">Facebook</a> |
+      <a href="https://www.instagram.com/thecellarpaphos" target="_blank">Instagram</a>
+    </p>
+  </footer>
+
 </body>
 </html>
