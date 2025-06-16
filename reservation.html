@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Reserve a Table | THE CELLAR</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: #fff;
+      padding: 40px 20px;
+      margin: 0;
+    }
+    form {
+      max-width: 500px;
+      margin: 0 auto;
+      font-size: 16px;
+    }
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #000;
+      color: #fff;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <form action="https://formsubmit.co/thecellarpaphos@gmail.com" method="POST">
+    <input type="hidden" name="_captcha" value="false">
+    <input type="hidden" name="_next" value="https://thecellarpaphos.com/thank-you.html">
+
+    <label for="guests">Guests:</label><br>
+    <select id="guests" name="Guests" required>
+      <option value="" disabled selected>Select number of guests</option>
+      <option>1</option><option>2</option><option>3</option>
+      <option>4</option><option>5</option><option>6</option>
+    </select>
+
+    <label for="date">Date:</label><br>
+    <input type="date" id="date" name="Date" required>
+
+    <label for="time">Time:</label><br>
+    <select id="time" name="Time" required>
+      <option value="" disabled selected>Select time</option>
+      <option>17:00</option><option>17:30</option><option>18:00</option>
+      <option>18:30</option><option>19:00</option><option>19:30</option>
+      <option>20:00</option><option>20:30</option><option>21:00</option>
+      <option>21:30</option><option>22:00</option>
+    </select>
+
+    <label for="name">Name:</label><br>
+    <input type="text" id="name" name="Name" required>
+
+    <label for="phone">Phone:</label><br>
+    <input type="tel" id="phone" name="Phone" placeholder="+357..." required>
+
+    <button type="submit">Book Now</button>
+  </form>
+</body>
+</html>
