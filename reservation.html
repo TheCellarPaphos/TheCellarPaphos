@@ -74,9 +74,13 @@
   <section>
     <div class="form-wrapper">
       <form action="https://formsubmit.co/thecellarpaphos@gmail.com" method="POST">
+        <!-- Скрытые поля -->
         <input type="hidden" name="_captcha" value="false" />
+        <input type="hidden" name="_subject" value="New Booking" />
         <input type="hidden" name="_next" value="https://thecellarpaphos.com/thank-you.html" />
+        <input type="text" name="website" style="display:none" autocomplete="off" />
 
+        <!-- Поля формы -->
         <label for="guests">Guests</label>
         <select id="guests" name="Guests" required>
           <option value="" disabled selected>Select number of guests</option>
