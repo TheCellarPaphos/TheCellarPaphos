@@ -1,119 +1,59 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wine by Glass | The Cellar</title>
-    <link rel="stylesheet" href="style.css">
+<script>
+  const SHEET_ID   = "1Gcd4D5FeI3bhveOc4n4eoPk5wpZPBi7_bg9T-9LX3XY";
+  const SHEET_NAME = "Sheet1";
+  const sheetUrl   = `https://opensheet.elk.sh/${SHEET_ID}/${encodeURIComponent(SHEET_NAME)}`;
 
-    <style>
-        .table-container {
-            overflow-x: auto; /* Добавляет прокрутку, если таблица шире экрана */
-            width: 100%;
-            max-width: 100%;
-            margin-top: 20px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            table-layout: fixed;
-        }
-        td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-            word-wrap: break-word;
-            white-space: normal;
-        }
-        tr:hover {
-            background-color: #f1f1f1;
-        }
-        .wine-name {
-            font-weight: bold;
-            font-size: 1.1em;
-            width: 40%;
-        }
-        .producer {
-            width: 30%;
-        }
-        .year {
-            width: 15%;
-        }
-        .price {
-            text-align: right;
-            font-weight: bold;
-            color: #b12704;
-            width: 15%;
-        }
-        @media (max-width: 768px) {
-            table {
-                font-size: 14px;
-            }
-            td {
-                padding: 8px;
-            }
-            .wine-name {
-                font-size: 1em;
-            }
-        }
-    </style>
+  const esc = (s) => String(s ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;");
 
-    <script>
-        const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRudIU7hLjm12jntkUX9dIrVvxfhitwHvikzHIDL7yNUhIKgZF0-Q6uPSOJV1EYrYE8HvBXO3TCG5h_/pubhtml";
+  async function loadMenu() {
+    try {
+      const res = await fetch(sheetUrl);
+      const data = await res.json();
 
-        async function loadMenu() {
-            try {
-                let response = await fetch(sheetUrl);
-                let text = await response.text();
+      if (!Array.isArray(data) || data.length === 0) {
+        throw new Error("Empty data");
+      }
 
-                let parser = new DOMParser();
-                let doc = parser.parseFromString(text, "text/html");
-                let table = doc.querySelector("table");
+      // Получаем порядок колонок ровно как он идёт в таблице (по заголовкам первой строки)
+      const headerOrder = Object.keys(data[0]);
 
-                if (table) {
-                    let newTable = `<div class="table-container"><table>`;
+      // Индексы, как в вашем старом парсере:
+      const IDX_NAME     = 0;
+      const IDX_PRODUCER = 1;
+      const IDX_YEAR     = 4; // Vintage/Year
+      const IDX_PRICE    = 7; // Price/Glass
 
-                    let rows = table.querySelectorAll("tr");
-                    for (let i = 2; i < rows.length; i++) { // Пропускаем заголовок
-                        let cols = rows[i].querySelectorAll("td");
-                        if (cols.length > 4) { // Убедимся, что есть все необходимые данные
-                            let price = cols[7]?.innerText.trim(); // Проверяем цену
-                            price = price ? `€${price}` : ""; // Если пусто, убираем N/A
+      let html = `<div class="table-container"><table>`;
 
-                            newTable += `<tr>
-                                <td class="wine-name">${cols[0].innerText}</td>
-                                <td class="producer">${cols[1].innerText}</td>
-                                <td class="year">${cols[4].innerText}</td> <!-- Год -->
-                                <td class="price">${price}</td>
-                            </tr>`;
-                        }
-                    }
+      data.forEach(row => {
+        // читаем по индексам в порядке headerOrder
+        const name     = (row[headerOrder[IDX_NAME]]     ?? "").toString().trim();
+        const producer = (row[headerOrder[IDX_PRODUCER]] ?? "").toString().trim();
+        const year     = (row[headerOrder[IDX_YEAR]]     ?? "").toString().trim();
+        let   price    = (row[headerOrder[IDX_PRICE]]    ?? "").toString().trim();
 
-                    newTable += "</table></div>";
-                    document.getElementById("menu").innerHTML = newTable;
-                } else {
-                    document.getElementById("menu").innerHTML = "<p>Could not load the menu. Please try again later.</p>";
-                }
-            } catch (error) {
-                console.error("Error loading menu:", error);
-                document.getElementById("menu").innerHTML = "<p>Could not load the menu. Please try again later.</p>";
-            }
-        }
+        if (!name) return;
+        price = price ? `€${price}` : "";
 
-        window.onload = loadMenu;
-    </script>
-</head>
-<body>
-    <header>
-        <h1>Wine by Glass</h1>
-    </header>
+        html += `<tr>
+          <td class="wine-name">${esc(name)}</td>
+          <td class="producer">${esc(producer)}</td>
+          <td class="year">${esc(year)}</td>
+          <td class="price">${esc(price)}</td>
+        </tr>`;
+      });
 
-    <section>
-        <div id="menu">Loading...</div>
-    </section>
+      html += "</table></div>";
+      document.getElementById("menu").innerHTML = html;
+    } catch (err) {
+      console.error("Error loading menu:", err);
+      document.getElementById("menu").innerHTML =
+        "<p>Could not load the menu. Please try again later.</p>";
+    }
+  }
 
-    <footer>
-        <p><a href="index.html">Back to Home</a></p>
-    </footer>
-</body>
-</html>
+  window.onload = loadMenu;
+</script>
