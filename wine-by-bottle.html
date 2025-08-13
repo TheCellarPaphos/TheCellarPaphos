@@ -1,120 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wine by Bottle | The Cellar</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Wine by Bottle | The Cellar</title>
+  <link rel="stylesheet" href="style.css"/>
 
-    <style>
-        .table-container {
-            overflow-x: auto;
-            width: 100%;
-            max-width: 100%;
-            margin-top: 20px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            table-layout: fixed;
-        }
-        td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-            word-wrap: break-word;
-            white-space: normal;
-        }
-        tr:hover {
-            background-color: #f1f1f1;
-        }
-        .wine-name {
-            font-weight: bold;
-            font-size: 1.1em;
-            width: 40%;
-        }
-        .winery {
-            width: 25%;
-        }
-        .year {
-            width: 15%;
-        }
-        .price {
-            text-align: right;
-            font-weight: bold;
-            color: #b12704;
-            width: 15%;
-        }
-        @media (max-width: 768px) {
-            table {
-                font-size: 14px;
-            }
-            td {
-                padding: 8px;
-            }
-            .wine-name {
-                font-size: 1em;
-            }
-        }
-    </style>
+  <style>
+    .table-container { overflow-x:auto; width:100%; max-width:100%; margin-top:20px; }
+    table { width:100%; border-collapse:collapse; table-layout:fixed; }
+    td { padding:12px; text-align:left; border-bottom:1px solid #ddd; word-wrap:break-word; white-space:normal; }
+    tr:hover { background-color:#f1f1f1; }
+    .wine-name { font-weight:bold; font-size:1.1em; width:40%; }
+    .winery    { width:25%; }
+    .year      { width:15%; }
+    .price     { text-align:right; font-weight:bold; color:#b12704; width:15%; }
 
-    <script>
-        const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRudIU7hLjm12jntkUX9dIrVvxfhitwHvikzHIDL7yNUhIKgZF0-Q6uPSOJV1EYrYE8HvBXO3TCG5h_/pubhtml?gid=772031568&single=true";
+    @media (max-width:768px){
+      table{ font-size:14px; }
+      td{ padding:8px; }
+      .wine-name{ font-size:1em; }
+    }
+  </style>
 
-        async function loadMenu() {
-            try {
-                let response = await fetch(sheetUrl);
-                let text = await response.text();
+  <script>
+    // Ничего менять не нужно
+    const SHEET_ID   = "1Gcd4D5FeI3bhveOc4n4eoPk5wpZPBi7_bg9T-9LX3XY";
+    const SHEET_NAME = "Sheet2"; // <-- ваше имя вкладки
+    const URL        = `https://opensheet.elk.sh/${SHEET_ID}/${encodeURIComponent(SHEET_NAME)}`;
 
-                let parser = new DOMParser();
-                let doc = parser.parseFromString(text, "text/html");
-                let table = doc.querySelector("table");
+    const esc = s => String(s ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
 
-                if (table) {
-                    let newTable = `<div class="table-container"><table>`;
-                    
-                    let rows = table.querySelectorAll("tr");
-                    for (let i = 2; i < rows.length; i++) {
-                        let cols = rows[i].querySelectorAll("td");
-                        if (cols.length > 6) {
-                            let price = cols[6]?.innerText.trim();
-                            price = price ? `€${price}` : "";
+    async function loadMenu(){
+      try{
+        const r = await fetch(URL, { cache:"no-store" });
+        if(!r.ok) throw new Error("HTTP " + r.status);
+        const data = await r.json();
 
-                            newTable += `<tr>
-                                <td class="wine-name">${cols[0].innerText}</td>
-                                <td class="winery">${cols[2].innerText}</td>
-                                <td class="year">${cols[1].innerText}</td>
-                                <td class="price">${price}</td>
-                            </tr>`;
-                        }
-                    }
+        let html = '<div class="table-container"><table>';
 
-                    newTable += "</table></div>";
-                    document.getElementById("menu").innerHTML = newTable;
-                } else {
-                    document.getElementById("menu").innerHTML = "<p>Could not load the menu. Please try again later.</p>";
-                }
-            } catch (error) {
-                console.error("Error loading menu:", error);
-                document.getElementById("menu").innerHTML = "<p>Could not load the menu. Please try again later.</p>";
-            }
-        }
+        data.forEach(row => {
+          const name   = (row["Name"] || "").toString().trim();
+          const winery = ((row["Winery"] || row["Producer"] || "") + "").trim(); // Winery, иначе Producer
+          const year   = (row["Vintage"] || "").toString().trim();
+          let   price  = (row["Price"]   || "").toString().trim();
 
-        window.onload = loadMenu;
-    </script>
+          if(!name) return;
+          price = price ? `€${price}` : "";
+
+          html += `<tr>
+            <td class="wine-name">${esc(name)}</td>
+            <td class="winery">${esc(winery)}</td>
+            <td class="year">${esc(year)}</td>
+            <td class="price">${esc(price)}</td>
+          </tr>`;
+        });
+
+        html += "</table></div>";
+        document.getElementById("menu").innerHTML = html;
+
+      }catch(e){
+        console.error("Error loading Wine by Bottle:", e);
+        document.getElementById("menu").innerHTML =
+          "<p>Could not load the menu. Please try again later.</p>";
+      }
+    }
+
+    window.onload = loadMenu;
+  </script>
 </head>
 <body>
-    <header>
-        <h1>Wine by Bottle</h1>
-    </header>
+  <header>
+    <h1>Wine by Bottle</h1>
+  </header>
 
-    <section>
-        <div id="menu">Loading...</div>
-    </section>
+  <section>
+    <div id="menu">Loading...</div>
+  </section>
 
-    <footer>
-        <p><a href="index.html">Back to Home</a></p>
-    </footer>
+  <footer>
+    <p><a href="index.html">Back to Home</a></p>
+  </footer>
 </body>
 </html>
-
