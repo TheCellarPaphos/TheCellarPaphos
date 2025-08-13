@@ -1,59 +1,146 @@
-<script>
-  const SHEET_ID   = "1Gcd4D5FeI3bhveOc4n4eoPk5wpZPBi7_bg9T-9LX3XY";
-  const SHEET_NAME = "Sheet1";
-  const sheetUrl   = `https://opensheet.elk.sh/${SHEET_ID}/${encodeURIComponent(SHEET_NAME)}`;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wine by Glass | The Cellar</title>
+    <link rel="stylesheet" href="style.css">
 
-  const esc = (s) => String(s ?? "")
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;");
+    <style>
+        .table-container {
+            overflow-x: auto; /* Добавляет прокрутку, если таблица шире экрана */
+            width: 100%;
+            max-width: 100%;
+            margin-top: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+        td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            word-wrap: break-word;
+            white-space: normal;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        .wine-name { font-weight: bold; font-size: 1.1em; width: 40%; }
+        .producer  { width: 30%; }
+        .year      { width: 15%; }
+        .price     { text-align: right; font-weight: bold; color: #b12704; width: 15%; }
 
-  async function loadMenu() {
-    try {
-      const res = await fetch(sheetUrl);
-      const data = await res.json();
+        @media (max-width: 768px) {
+            table { font-size: 14px; }
+            td { padding: 8px; }
+            .wine-name { font-size: 1em; }
+        }
+    </style>
 
-      if (!Array.isArray(data) || data.length === 0) {
-        throw new Error("Empty data");
-      }
+    <script>
+        // Настройки таблицы (ничего менять не надо)
+        const SHEET_ID   = "1Gcd4D5FeI3bhveOc4n4eoPk5wpZPBi7_bg9T-9LX3XY";
+        const SHEET_NAME = "Sheet1";
+        const OPEN_SHEET_URL = `https://opensheet.elk.sh/${SHEET_ID}/${encodeURIComponent(SHEET_NAME)}`;
+        const GVIZ_URL  = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}`;
 
-      // Получаем порядок колонок ровно как он идёт в таблице (по заголовкам первой строки)
-      const headerOrder = Object.keys(data[0]);
+        // Индексы колонок ровно как у вас было: 0-Name, 1-Producer, 4-Year, 7-Price
+        const IDX_NAME = 0, IDX_PRODUCER = 1, IDX_YEAR = 4, IDX_PRICE = 7;
 
-      // Индексы, как в вашем старом парсере:
-      const IDX_NAME     = 0;
-      const IDX_PRODUCER = 1;
-      const IDX_YEAR     = 4; // Vintage/Year
-      const IDX_PRICE    = 7; // Price/Glass
+        function esc(s) {
+            s = (s == null ? "" : String(s));
+            return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+        }
 
-      let html = `<div class="table-container"><table>`;
+        function renderRows(rows) {
+            if (!rows || !rows.length) {
+                document.getElementById("menu").innerHTML = "<p>Could not load the menu. Please try again later.</p>";
+                return;
+            }
+            let html = '<div class="table-container"><table>';
+            rows.forEach(cols => {
+                const name     = (cols[IDX_NAME]     || "").toString().trim();
+                const producer = (cols[IDX_PRODUCER] || "").toString().trim();
+                const year     = (cols[IDX_YEAR]     || "").toString().trim();
+                let   price    = (cols[IDX_PRICE]    || "").toString().trim();
+                if (!name) return;
+                price = price ? `€${price}` : "";
+                html += `<tr>
+                    <td class="wine-name">${esc(name)}</td>
+                    <td class="producer">${esc(producer)}</td>
+                    <td class="year">${esc(year)}</td>
+                    <td class="price">${esc(price)}</td>
+                </tr>`;
+            });
+            html += "</table></div>";
+            document.getElementById("menu").innerHTML = html;
+        }
 
-      data.forEach(row => {
-        // читаем по индексам в порядке headerOrder
-        const name     = (row[headerOrder[IDX_NAME]]     ?? "").toString().trim();
-        const producer = (row[headerOrder[IDX_PRODUCER]] ?? "").toString().trim();
-        const year     = (row[headerOrder[IDX_YEAR]]     ?? "").toString().trim();
-        let   price    = (row[headerOrder[IDX_PRICE]]    ?? "").toString().trim();
+        // 1) Пытаемся через opensheet (JSON с корректным CORS)
+        async function tryOpenSheet() {
+            const res = await fetch(OPEN_SHEET_URL, { cache: "no-store" });
+            if (!res.ok) throw new Error("opensheet HTTP " + res.status);
+            const data = await res.json();
+            if (!Array.isArray(data) || data.length === 0) throw new Error("opensheet empty");
+            // Фиксируем порядок колонок по первому объекту
+            const headers = Object.keys(data[0]);
+            const rows = data.map(row => headers.map(h => row[h] ?? ""));
+            renderRows(rows);
+        }
 
-        if (!name) return;
-        price = price ? `€${price}` : "";
+        // 2) Fallback на gviz (JSONP) — CORS не мешает
+        function tryGviz() {
+            window.google = window.google || {};
+            window.google.visualization = window.google.visualization || {};
+            window.google.visualization.Query = {
+                setResponse: function(resp) {
+                    try {
+                        const t = resp && resp.table;
+                        const r = t && t.rows ? t.rows : [];
+                        const rows = r.map(rr => (rr.c || []).map(c => (c && c.v) || ""));
+                        renderRows(rows);
+                    } catch (e) {
+                        console.error("gviz parse error", e);
+                        document.getElementById("menu").innerHTML =
+                          "<p>Could not load the menu. Please try again later.</p>";
+                    }
+                }
+            };
+            const s = document.createElement("script");
+            s.src = GVIZ_URL;
+            s.onerror = function() {
+                document.getElementById("menu").innerHTML =
+                  "<p>Could not load the menu. Please try again later.</p>";
+            };
+            document.head.appendChild(s);
+        }
 
-        html += `<tr>
-          <td class="wine-name">${esc(name)}</td>
-          <td class="producer">${esc(producer)}</td>
-          <td class="year">${esc(year)}</td>
-          <td class="price">${esc(price)}</td>
-        </tr>`;
-      });
+        async function loadMenu() {
+            try {
+                await tryOpenSheet(); // основной путь (как в Tasting Sets)
+            } catch (e) {
+                console.warn("opensheet failed, fallback to gviz:", e);
+                tryGviz();            // резерв
+            }
+        }
 
-      html += "</table></div>";
-      document.getElementById("menu").innerHTML = html;
-    } catch (err) {
-      console.error("Error loading menu:", err);
-      document.getElementById("menu").innerHTML =
-        "<p>Could not load the menu. Please try again later.</p>";
-    }
-  }
+        window.onload = loadMenu;
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Wine by Glass</h1>
+    </header>
 
-  window.onload = loadMenu;
-</script>
+    <section>
+        <div id="menu">Loading...</div>
+    </section>
+
+    <footer>
+        <p><a href="index.html">Back to Home</a></p>
+    </footer>
+</body>
+</html>
