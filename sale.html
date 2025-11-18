@@ -4,27 +4,80 @@
     <meta charset="UTF-8">
     <title>The Cellar – Premises for Sale</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- подключаем общий стиль сайта -->
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Обёртка, центрируем карточку по вертикали и горизонтали */
+        .sale-wrapper {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 15px;
+        }
+
+        /* Белая карточка с текстом */
+        .sale-card {
+            max-width: 900px;
+            background: rgba(255, 255, 255, 0.96);
+            border-radius: 18px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25);
+            padding: 32px 40px;
+            text-align: left;
+            font-size: 20px;
+            line-height: 1.7;
+            color: #000;
+        }
+
+        .sale-card h1 {
+            font-size: 30px;
+            margin-top: 0;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .sale-card h2 {
+            font-size: 24px;
+            margin-top: 24px;
+            margin-bottom: 10px;
+            text-align: left;
+        }
+
+        .sale-card p {
+            margin: 8px 0;
+        }
+
+        .sale-card ul {
+            margin: 8px 0 0 20px;
+        }
+
+        .sale-back {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 18px;
+            text-decoration: none;
+            border-radius: 8px;
+            border: 1px solid #000;
+            color: #000;
+            background: #f5f5f5;
+        }
+    </style>
 </head>
 <body>
 
-<div class="menu-background">
-    <div class="background-overlay"></div>
-
-    <div class="menu-container">
-        <h1>Premises of The Cellar – Wine Bar For Sale</h1>
-
-        <div class="menu-card">
+    <div class="sale-wrapper">
+        <div class="sale-card">
+            <h1>Premises of The Cellar – Wine Bar For Sale</h1>
 
             <p>
                 The premises of The Cellar – Wine Bar, located in the Limnaria Westpark area of
-                Kato Paphos, are currently offered for sale by the owner.
+                Kato Paphos, are offered for sale by the owner.
             </p>
 
             <p>
-                The location is in a busy tourist area near the seafront and hotels.
-                The space is suitable for a wine bar, gastro bar, tasting room, or another
-                hospitality concept.
+                The bar is in a busy tourist area close to the seafront and several hotels.
+                The space is suitable for a wine bar, gastro bar, tasting room or another
+                small hospitality concept.
             </p>
 
             <h2>Price</h2>
@@ -37,31 +90,31 @@
 
             <h2>Short Description</h2>
             <p>
-                • Ground-floor commercial space in Limnaria Westpark<br>
+                • Ground-floor commercial unit in Limnaria Westpark<br>
                 • Evening foot traffic and strong tourist area<br>
-                • Fully equipped interior (ready to operate)<br>
-                • Previously operated as a wine bar with events and returning customers
+                • Interior ready to operate as a bar or tasting room<br>
+                • Previously operated as a wine bar with regular guests and events
             </p>
 
             <h2>Equipment</h2>
             <p>
                 Includes bar counter, wine fridges, refrigerators, shelves, guest furniture,
-                glassware and other bar items. A full list is available on request.
+                glassware and other bar items. A full list of equipment is available on request.
             </p>
 
             <h2>Contact</h2>
             <p>
-                For full details, photos, floor plan and equipment list, please contact:<br>
+                For full details, photos, floor plan and the complete equipment list, please contact:<br>
                 <a href="mailto:thecellarpaphos@gmail.com">thecellarpaphos@gmail.com</a>
             </p>
 
-            <br>
-            <a href="index.html" class="back-button">← Back to Main Page</a>
-
+            <a href="index.html" class="sale-back">← Back to Main Page</a>
         </div>
-
     </div>
-</div>
+
+</body>
+</html>
+
 
 </body>
 </html>
