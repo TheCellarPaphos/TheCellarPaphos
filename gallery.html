@@ -16,18 +16,32 @@
             text-align: center;
             padding: 30px 20px;
             margin: 0;
-            font-size: 2.2rem;
+            font-size: 2rem;
             font-weight: 600;
         }
 
-        img {
-            display: block;
+        .gallery {
             width: 95%;
-            max-height: 80vh;
-            object-fit: contain;
-            margin: 0 auto 30px auto;
+            max-width: 1200px;
+            margin: 0 auto 40px auto;
+
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .gallery img {
+            width: 100%;
+            height: auto;
+            display: block;
             border-radius: 8px;
             box-shadow: 0 3px 12px rgba(0,0,0,0.15);
+        }
+
+        @media (max-width: 768px) {
+            .gallery {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -36,13 +50,17 @@
 
 <h1>Photo Gallery</h1>
 
-<img src="images/gallery/IMG1.JPG" alt="Property Photo 1">
+<div class="gallery">
 
-<img src="images/gallery/IMG2.JPG" alt="Property Photo 2">
+    <img src="images/gallery/IMG1.JPG" alt="Photo 1">
 
-<img src="images/gallery/IMG3.JPG" alt="Property Photo 3">
+    <img src="images/gallery/IMG2.JPG" alt="Photo 2">
 
-<img src="images/gallery/IMG4.JPG" alt="Property Photo 4">
+    <img src="images/gallery/IMG3.JPG" alt="Photo 3">
+
+    <img src="images/gallery/IMG4.JPG" alt="Photo 4">
+
+</div>
 
 </body>
 </html>
