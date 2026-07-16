@@ -2,8 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+
     <title>Commercial Property for Sale</title>
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="stylesheet" href="style.css">
 
     <style>
@@ -16,10 +19,12 @@
         }
 
         .sale-card {
+            width: 100%;
             max-width: 900px;
-            background: rgba(255,255,255,0.96);
+            box-sizing: border-box;
+            background: rgba(255, 255, 255, 0.96);
             border-radius: 18px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.25);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25);
             padding: 32px 40px;
             text-align: left;
             font-size: 20px;
@@ -27,134 +32,180 @@
             color: #000;
         }
 
-        .sale-card h1 {
+        .sale-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+
+        .sale-header h1 {
+            margin: 0;
             font-size: 30px;
-            margin-top: 0;
-            margin-bottom: 20px;
-            text-align: center;
+            line-height: 1.25;
+            text-align: left;
         }
 
         .sale-card h2 {
-            font-size: 24px;
             margin-top: 24px;
             margin-bottom: 10px;
+            font-size: 24px;
         }
 
         .gallery-link {
             display: inline-block;
-            margin-top: 10px;
+            flex-shrink: 0;
             padding: 12px 22px;
+            border-radius: 8px;
             background: #7a1f2b;
             color: #fff;
+            font-weight: 700;
+            line-height: 1.4;
+            text-align: center;
             text-decoration: none;
-            border-radius: 8px;
-            font-weight: bold;
-            transition: background 0.2s;
+            white-space: nowrap;
+            transition: background 0.2s ease;
         }
 
         .gallery-link:hover {
             background: #5f1721;
         }
 
+        .sale-card a {
+            overflow-wrap: anywhere;
+        }
+
         .sale-back {
             display: inline-block;
             margin-top: 20px;
             padding: 10px 18px;
-            text-decoration: none;
-            border-radius: 8px;
             border: 1px solid #000;
-            color: #000;
+            border-radius: 8px;
             background: #f5f5f5;
+            color: #000;
+            text-decoration: none;
+            transition: background 0.2s ease;
         }
 
         .sale-back:hover {
             background: #e9e9e9;
+        }
+
+        @media (max-width: 700px) {
+            .sale-wrapper {
+                padding: 20px 10px;
+            }
+
+            .sale-card {
+                padding: 24px 20px;
+                font-size: 18px;
+            }
+
+            .sale-header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 18px;
+            }
+
+            .sale-header h1 {
+                font-size: 28px;
+                text-align: center;
+            }
+
+            .gallery-link {
+                display: block;
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            .sale-card h2 {
+                font-size: 22px;
+            }
         }
     </style>
 </head>
 
 <body>
 
-<div class="sale-wrapper">
+    <div class="sale-wrapper">
 
-<div class="sale-card">
+        <main class="sale-card">
 
-<h1>Commercial Property for Sale</h1>
+            <div class="sale-header">
 
-<p>
-A fully equipped wine bar with a 120 m² commercial space in the Limnaria Westpark area of Kato Paphos is offered for sale by the owner.
-</p>
+                <h1>Commercial Property for Sale</h1>
 
-<h2>What is Offered</h2>
+                <a
+                    href="https://thecellarpaphos.com/gallery.html"
+                    class="gallery-link"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    View Photo Gallery
+                </a>
 
-<p>
-The property includes a ready-to-operate wine bar with full interior setup, professional equipment, guest furniture and a layout suitable for wine bars, gastro bars, tasting rooms or boutique hospitality concepts.
-</p>
+            </div>
 
-<h2>Price</h2>
+            <p>
+                A fully equipped wine bar with a 120 m² commercial space in the
+                Limnaria Westpark area of Kato Paphos is offered for sale by the owner.
+            </p>
 
-<p>
-• €225,000 — commercial property (120 m²)<br>
-• €20,000 — professional equipment<br>
-• €10,000 — wine collection<br>
-<strong>Total package: €255,000</strong>
-</p>
+            <h2>What is Offered</h2>
 
-<h2>Key Features</h2>
+            <p>
+                The property includes a ready-to-operate wine bar with full interior
+                setup, professional equipment, guest furniture and a layout suitable
+                for wine bars, gastro bars, tasting rooms or boutique hospitality
+                concepts.
+            </p>
 
-<p>
-• Ground-floor commercial unit in Limnaria Westpark<br>
-• Strong tourist traffic throughout the year<br>
-• Close to the seafront and hotel area<br>
-• Fully equipped interior ready for immediate operation<br>
-• Previously operated as a wine bar with regular guests and events
-</p>
+            <h2>Price</h2>
 
-<h2>Equipment Included</h2>
+            <p>
+                • €225,000 — commercial property (120 m²)<br>
+                • €20,000 — professional equipment<br>
+                • €10,000 — wine collection<br>
+                <strong>Total package: €255,000</strong>
+            </p>
 
-<p>
-Bar counter, wine fridges, refrigerators, shelving systems, guest seating, lighting, glassware and additional bar equipment. A complete list of equipment is available upon request.
-</p>
+            <h2>Key Features</h2>
 
-<h2>Photo Gallery</h2>
+            <p>
+                • Ground-floor commercial unit in Limnaria Westpark<br>
+                • Strong tourist traffic throughout the year<br>
+                • Close to the seafront and hotel area<br>
+                • Fully equipped interior ready for immediate operation<br>
+                • Previously operated as a wine bar with regular guests and events
+            </p>
 
-<p>
-Explore the interior, bar area, equipment and commercial premises in our photo gallery.
-</p>
+            <h2>Equipment Included</h2>
 
-<a href="https://thecellarpaphos.com/gallery.html"
-   class="gallery-link"
-   target="_blank"
-   rel="noopener noreferrer">
-    View Photo Gallery
-</a>
+            <p>
+                Bar counter, wine fridges, refrigerators, shelving systems, guest
+                seating, lighting, glassware and additional bar equipment. A complete
+                list of equipment is available upon request.
+            </p>
 
-<h2>Contact</h2>
+            <h2>Contact</h2>
 
-<p>
-For full details, floor plan, complete equipment list and viewing arrangements, please contact:<br>
+            <p>
+                For full details, floor plan, complete equipment list and viewing
+                arrangements, please contact:<br>
 
-<a href="mailto:mezezon@gmail.com">
-mezezon@gmail.com
-</a>
+                <a href="mailto:mezezon@gmail.com">
+                    mezezon@gmail.com
+                </a>
+            </p>
 
-</p>
+            <a href="index.html" class="sale-back">
+                ← Back to Main Page
+            </a>
 
-<a href="index.html" class="sale-back">
-← Back to Main Page
-</a>
+        </main>
 
-</div>
-
-</div>
-
-</body>
-</html>
-            <p>For full details, photos, floor plan and the complete equipment list, please contact:<br>
-            <a href="mailto:mezezon@gmail.com">mezezon@gmail.com</a></p>
-
-            <a href="index.html" class="sale-back">← Back to Main Page</a>
-        </div>
     </div>
+
 </body>
 </html>
